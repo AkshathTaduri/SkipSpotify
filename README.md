@@ -8,9 +8,13 @@ Needs to be run in a Flask environment
 Execute the following commands for set up:
 
 python -m venv myenv
+
 source myenv/bin/activate
+
 pip install flask
+
 pip install requests
+
 flask run
 
 Add the app.py file to folder with the Flask environment before deploying with "flask run"
