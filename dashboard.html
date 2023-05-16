@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var access_token = "{{ access_token }}"; // Retrieve the access token from the template
+
+            function getCurrentSong() {
+                // Make an AJAX request to fetch the current song
+                $.ajax({
+                    url: "https://api.spotify.com/v1/me/player/currently-playing",
+                    headers: {
+                        "Authorization": "Bearer " + access_token
+                    },
+                    success: function (response) {
+                        if (response && response.item) {
+                            var songName = response.item.name;
+                            var artists = response.item.artists.map(artist => artist.name).join(", ");
+                            $("#current-song").text("Currently playing: " + songName + " by " + artists);
+                        } else {
+                            $("#current-song").text("No song is currently playing.");
+                        }
+                    },
+                    error: function () {
+                        $("#current-song").text("Error: Failed to fetch current song.");
+                    }
+                });
+            }
+
+            // Fetch the current song initially
+            getCurrentSong();
+
+            // Refresh the current song every 5 seconds
+            setInterval(getCurrentSong, 5000);
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Dashboard</h1>
+    <p id="current-song"></p>
+</body>
+
+</html>
